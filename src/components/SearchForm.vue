@@ -1,7 +1,6 @@
 <template lang="pug">
 div#searchForm
-	input(v-model='userName' placeholder='input user name')
-	input(v-model='repoName' placeholder='input repo name')
+	input(v-model='userInput' placeholder='Input user name and repository')
 	button(@click='submit') SEARCH!
 </template>
 
@@ -9,15 +8,20 @@ div#searchForm
 export default {
 	data() {
 		return {
-			userName: 'jeargle',
-			repoName: 'AlJabr'
+			userInput:''
 		}
 	},
 	methods: {
 		submit() {
 			this.$emit('searchIssues', [this.userName, this.repoName]);
-			this.userName = '';
-			this.repoName = '';
+		}
+	},
+	computed: {
+		userName() {
+			return this.userInput.split(' ')[0];
+		},
+		repoName() {
+			return this.userInput.split(' ')[1];
 		}
 	}
 }

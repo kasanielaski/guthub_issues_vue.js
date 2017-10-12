@@ -22,8 +22,9 @@ export default {
 	},
 	methods: {
 		search(data) {
-			this.userIssues = [];
 			[this.userName, this.repoName] = data;
+			localStorage.setItem('name', this.userName);
+			localStorage.setItem('repo', this.repoName);
 			this.findIssues();
 		},
 		findIssues() {
@@ -31,8 +32,18 @@ export default {
 			.then(r => r.json())
 			.then(data => {
 				this.userIssues.push(...data);
-				console.log(data[0]);
 			})
+			.catch(err => {
+				console.log(`Fetch error: ${err}`);
+			})
+		}
+	},
+	created() {
+		if(localStorage.length > 0){
+			const name = localStorage.getItem('name');
+			const repo = localStorage.getItem('repo');
+			const data = [name, repo];
+			this.search(data);
 		}
 	}
 }

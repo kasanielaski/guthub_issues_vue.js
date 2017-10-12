@@ -3,6 +3,7 @@ div#issuesList
 	div.issueContainer
 		b result's count: 
 		select(v-model='limit')
+			option 
 			option 5
 			option 10
 			option 15
@@ -12,7 +13,7 @@ div#issuesList
 			br
 			b username: {{issue.user.login}}
 			br
-			a(:href='issue.user.html_url') user's profile
+			a(:href='issue.user.html_url' target='_blank') user's profile
 		div.issueContainer.info
 			span issue's number: {{issue.number}}
 			br
@@ -31,16 +32,23 @@ export default {
 	},
 	data() {
 		return {
-			limit: ''
+			limit: '',
 		}
 	},
 	computed: {
 		filteredIssues() {
 			if(this.limit === '') {
+				localStorage.setItem('limit', this.limit);
 				return this.userIssues;
 			} else {
-				return this.userIssues.slice(0, this.limit)
+				localStorage.setItem('limit', this.limit);
+				return this.userIssues.slice(0, this.limit);
 			}			
+		}
+	},
+	created() {
+		if(localStorage.length > 0){
+			this.limit = localStorage.getItem('limit');
 		}
 	}
 }
