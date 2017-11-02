@@ -9,9 +9,9 @@ div#searchForm
 			option 5
 			option 10
 			option 15
-	section
-		button(@click='prev') prev
-		button(@click='next') next
+	section.control-group
+		button.control-group__prev(@click='prev') Prev
+		button.control-group__next(@click='next') Next
 </template>
 
 <script>
@@ -66,6 +66,7 @@ select {
 	border-radius: $default_radius;
 	background-color: $main_color;
 	margin-bottom: 1vh;
+	font-size: 1.5vh;
 	&:focus {
 		outline: none;
 	}
@@ -91,6 +92,7 @@ button {
 	border: $common_border;
 	background-color: $main_color;
 	margin-bottom: 1vh;
+	font-size: 1.5vh;
 	&:active {
 		background-color: darken($main_color, 10%)
 	}
@@ -98,4 +100,14 @@ button {
 		outline: none;
 	}
 }
+
+.control-group {
+	&__prev,
+	&__next {
+		@extend button;
+		min-width: 3vw;
+		margin-right: .5vw; 
+	}
+}
+
 </style>

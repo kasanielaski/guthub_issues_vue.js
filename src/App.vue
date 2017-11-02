@@ -67,6 +67,7 @@ body {
 	margin: 0;
 	padding: 0;
 	background-color: lightblue;
+	font-size: 1.5vh;
 }
 #app {
 	height: auto;
