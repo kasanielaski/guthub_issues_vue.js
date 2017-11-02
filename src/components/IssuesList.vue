@@ -1,25 +1,18 @@
 <template lang="pug">
 div#issuesList
-	div.issueContainer
-		b result's count: 
-		select(v-model='limit')
-			option 
-			option 5
-			option 10
-			option 15
-	div.issue(v-for='issue in filteredIssues')
+	div.issue(v-for='issue in userIssues')
 		div.issueContainer
 			img.avatar(:src='issue.user.avatar_url')
 			br
-			b username: {{issue.user.login}}
+			b username: {{ issue.user.login }}
 			br
 			a(:href='issue.user.html_url' target='_blank') user's profile
 		div.issueContainer.info
-			span issue's number: {{issue.number}}
+			span issue's number: {{ issue.number }}
 			br
-			span issue's title: {{issue.title}}
+			span issue's title: {{ issue.title }}
 			br
-			span issue's date: {{issue.created_at}}
+			span issue's date: {{ issue.created_at }}
 </template>
 
 <script>
@@ -28,27 +21,6 @@ export default {
 		userIssues: {
 			type: Array,
 			required: true
-		}
-	},
-	data() {
-		return {
-			limit: '',
-		}
-	},
-	computed: {
-		filteredIssues() {
-			if(this.limit === '') {
-				localStorage.setItem('limit', this.limit);
-				return this.userIssues;
-			} else {
-				localStorage.setItem('limit', this.limit);
-				return this.userIssues.slice(0, this.limit);
-			}			
-		}
-	},
-	created() {
-		if(localStorage.length > 0){
-			this.limit = localStorage.getItem('limit');
 		}
 	}
 }
@@ -69,7 +41,7 @@ export default {
 	margin-bottom: 1vh;
 	border: $common_border;
 	background-color: $main_color;
-	border-radius: 3px;
+	border-radius: $default_radius;
 	display: flex;
 	flex-wrap: nowrap;
 }
@@ -80,8 +52,8 @@ export default {
 	text-align: right
 }
 .avatar {
-	width: 70px;
-	height: 70px;
+	width: 6.48vh;
+	height: 6.48vh;
 	border-radius: 100px;
 	border: $common_border;
 }
@@ -90,8 +62,14 @@ a {
 	color: gray;
 }
 select {
-	border-radius: 3px;
+	border-radius: $default_radius;
 	background-color: $main_color;
 	margin-bottom: 1vh;
+	&:focus {
+		outline: none;
+	}
+	&:active {
+		background-color: darken($main_color, 10%)
+	}
 }
 </style>
