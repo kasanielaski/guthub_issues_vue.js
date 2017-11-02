@@ -23,7 +23,9 @@ export default {
 	},
 	methods: {
 		submit() {
-			this.$emit('searchIssues', [this.userName, this.repoName]);
+			this.$store.commit('addUser', this.userName);
+			this.$store.commit('addRepo', this.repoName);
+			this.$parent.findIssues();
 		},
 		onSelect(e) {
 			this.$store.commit('perPage', e.target.value);

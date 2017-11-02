@@ -1,6 +1,6 @@
 <template lang="pug">
 	div#app
-		SearchForm(@searchIssues='search')
+		SearchForm
 		IssuesList(:userIssues='userIssues' v-if='userIssues')
 </template>
 
@@ -15,8 +15,6 @@ export default {
 	},
 	data() {
 		return {
-			userName: '',
-			repoName: '',
 			userIssues: []
 		}
 	},
@@ -25,9 +23,17 @@ export default {
 			return this.$store.state.page;
 		},
 		perPage() {
+			localStorage.setItem('perPage', this.$store.state.perPage);
 			return this.$store.state.perPage;
-			localStorage.setItem('perPage', data);
-		}
+		},
+		userName() {
+			localStorage.setItem('userName', this.$store.state.userName);
+			return this.$store.state.userName;
+		},
+		repoName() {
+			localStorage.setItem('repoName', this.$store.state.repoName);			
+			return this.$store.state.repoName;
+		} 
 	},
 	methods: {
 		findIssues() {
@@ -40,24 +46,14 @@ export default {
 			.catch(err => {
 				console.log(`Fetch error: ${err}`);
 			})
-		},
-		search(data) {
-			[this.userName, this.repoName] = data;
-			localStorage.setItem('name', this.userName);
-			localStorage.setItem('repo', this.repoName);
-			this.findIssues();
 		}
 	},
 	created() {
-		if(localStorage.getItem('name') && localStorage.getItem('name')) {
-			const name = localStorage.getItem('name');
-			const repo = localStorage.getItem('repo');
-			const data = [name, repo];
-			this.search(data);
-		}
-
-		if(localStorage.getItem('perPage')) {
-			this.perPage = localStorage.getItem('perPage');
+		if(localStorage.getItem('userName') && localStorage.getItem('repoName') && localStorage.getItem('perPage')) {
+			this.$store.commit('addUser', localStorage.getItem('userName'));
+			this.$store.commit('addRepo', localStorage.getItem('repoName'));
+			this.$store.commit('perPage', localStorage.getItem('perPage'));
+			this.findIssues();
 		}
 	}
 }
